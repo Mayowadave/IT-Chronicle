@@ -1,0 +1,11 @@
+{
+  "name": "logbook-netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify functions for the IT Logbook System",
+  "main": "gemini.mjs",
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "0.14.0",
+    "firebase-admin": "^12.1.1"
+  }
+}

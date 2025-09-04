@@ -1,0 +1,7 @@
+{
+  "name": "Industrial Training Logbook System",
+  "description": "A full-featured logbook system for students and supervisors to manage industrial training activities. This is a frontend prototype that simulates backend functionality.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

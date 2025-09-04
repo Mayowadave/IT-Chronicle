@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-g" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Industrial Training Logbook System</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <style>
+      :root {
+        --color-primary-default: #3b82f6;
+        --color-primary-light: #60a5fa;
+        --color-primary-dark: #2563eb;
+      }
+      .theme-teal {
+        --color-primary-default: #14b8a6; /* teal-500 */
+        --color-primary-light: #5eead4; /* teal-300 */
+        --color-primary-dark: #0f766e; /* teal-700 */
+      }
+      .theme-rose {
+        --color-primary-default: #f43f5e; /* rose-500 */
+        --color-primary-light: #fb7185; /* rose-400 */
+        --color-primary-dark: #e11d48; /* rose-600 */
+      }
+      .theme-indigo {
+        --color-primary-default: #6366f1; /* indigo-500 */
+        --color-primary-light: #818cf8; /* indigo-400 */
+        --color-primary-dark: #4f46e5; /* indigo-600 */
+      }
+      .theme-emerald {
+        --color-primary-default: #10b981; /* emerald-500 */
+        --color-primary-light: #34d399; /* emerald-400 */
+        --color-primary-dark: #059669; /* emerald-600 */
+      }
+      .theme-amber {
+        --color-primary-default: #f59e0b; /* amber-500 */
+        --color-primary-light: #fbbf24; /* amber-400 */
+        --color-primary-dark: #d97706; /* amber-600 */
+      }
+    </style>
+    <script>
+      // Set theme on initial load to prevent flash of unstyled content (FOUC)
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+
+      tailwind.config = {
+        darkMode: 'class', // Enable dark mode based on class
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: 'var(--color-primary-default)',
+                light: 'var(--color-primary-light)',
+                dark: 'var(--color-primary-dark)',
+              },
+              secondary: '#64748b', // slate-500
+              background: '#f8fafc', // slate-50
+              surface: '#ffffff',
+              'on-surface': '#1e293b', // slate-800
+            },
+          },
+        },
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.8.2",
+    "react-markdown": "https://esm.sh/react-markdown@9.0.1",
+    "remark-gfm": "https://esm.sh/remark-gfm@4.0.0",
+    "jspdf": "https://esm.sh/jspdf@2.5.1",
+    "firebase/app": "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
+    "firebase/auth": "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",
+    "firebase/database": "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js",
+    "firebase/": "https://aistudiocdn.com/firebase@^12.2.1/",
+    "@firebase/auth": "https://aistudiocdn.com/@firebase/auth@^1.11.0",
+    "@firebase/app": "https://aistudiocdn.com/@firebase/app@^0.14.2",
+    "@firebase/database": "https://aistudiocdn.com/@firebase/database@^1.1.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-background dark:bg-black text-on-surface dark:text-slate-200 transition-colors duration-300">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

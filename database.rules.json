@@ -1,0 +1,58 @@
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'admin'",
+      ".indexOn": ["supervisorCode", "supervisorId"],
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('users/' + auth.uid + '/role').val() === 'admin' || (root.child('users/' + auth.uid + '/role').val() === 'supervisor' && root.child('users/' + $uid + '/supervisorId').val() === auth.uid) || (root.child('users/' + auth.uid + '/role').val() === 'student' && root.child('users/' + auth.uid + '/supervisorId').val() === $uid))",
+        ".write": "auth != null && (auth.uid === $uid || root.child('users/' + auth.uid + '/role').val() === 'admin' || (root.child('users/' + auth.uid + '/role').val() === 'supervisor' && root.child('users/' + $uid + '/supervisorId').val() === auth.uid))",
+        ".validate": "newData.hasChildren(['firstName', 'surname', 'email', 'role']) && (!data.exists() || newData.child('role').val() === data.child('role').val() || root.child('users/' + auth.uid + '/role').val() === 'admin')"
+      }
+    },
+    "logs": {
+      ".read": "auth != null && (root.child('users/' + auth.uid + '/role').val() === 'admin' || (query.orderByChild === 'studentId' && query.equalTo === auth.uid))",
+      ".indexOn": ["studentId"],
+      "$logId": {
+        ".read": "auth != null && data.exists() && (data.child('studentId').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'admin' || (root.child('users/' + auth.uid + '/role').val() === 'supervisor' && root.child('users/' + data.child('studentId').val() + '/supervisorId').val() === auth.uid))",
+        ".write": "auth != null && (root.child('users/' + auth.uid + '/role').val() === 'admin' || (!data.exists() && newData.child('studentId').val() === auth.uid) || (data.exists() && ( (data.child('studentId').val() === auth.uid && data.child('status').val() !== 'approved') || (root.child('users/' + auth.uid + '/role').val() === 'supervisor' && root.child('users/' + data.child('studentId').val() + '/supervisorId').val() === auth.uid) ) ) )",
+        ".validate": "newData.hasChildren(['studentId', 'date', 'week', 'title', 'content', 'status'])"
+      }
+    },
+    "notifications": {
+      ".read": "auth != null && (root.child('users/' + auth.uid + '/role').val() === 'admin' || (query.orderByChild === 'userId' && query.equalTo === auth.uid))",
+      ".indexOn": ["userId"],
+      "$notificationId": {
+        ".read": "auth != null && data.exists() && data.child('userId').val() === auth.uid",
+        ".write": "auth != null && ((!data.exists() && newData.hasChildren(['userId', 'message', 'read', 'createdAt']) && (root.child('users/' + auth.uid + '/role').val() === 'admin' || (root.child('users/' + auth.uid + '/role').val() === 'student' && newData.child('userId').val() === root.child('users/' + auth.uid + '/supervisorId').val()) || (root.child('users/' + auth.uid + '/role').val() === 'supervisor' && root.child('users/' + newData.child('userId').val() + '/supervisorId').val() === auth.uid))) || (data.exists() && data.child('userId').val() === auth.uid))"
+      }
+    },
+    "skills": {
+      ".read": "auth != null && (root.child('users/' + auth.uid + '/role').val() === 'admin' || (query.orderByChild === 'studentId' && (query.equalTo === auth.uid || (root.child('users/' + auth.uid + '/role').val() === 'supervisor' && root.child('users/' + query.equalTo + '/supervisorId').val() === auth.uid))))",
+      ".indexOn": ["studentId"],
+      "$skillId": {
+        ".read": "auth != null && data.exists() && (data.child('studentId').val() === auth.uid || root.child('users/' + auth.uid + '/role').val() === 'admin' || (root.child('users/' + auth.uid + '/role').val() === 'supervisor' && root.child('users/' + data.child('studentId').val() + '/supervisorId').val() === auth.uid))",
+        ".write": "auth != null && (root.child('users/' + auth.uid + '/role').val() === 'admin' || (root.child('users/' + auth.uid + '/role').val() === 'supervisor' && ((!data.exists() && root.child('users/' + newData.child('studentId').val() + '/supervisorId').val() === auth.uid) || (data.exists() && root.child('users/' + data.child('studentId').val() + '/supervisorId').val() === auth.uid))))"
+      }
+    },
+    "branding": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'admin'"
+    },
+    "announcements": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'admin'"
+    },
+    "programCycles": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'admin'"
+    },
+    "systemEvents": {
+      ".indexOn": ["timestamp"],
+      ".read": "auth != null && root.child('users/' + auth.uid + '/role').val() === 'admin'",
+      "$eventId": {
+        ".write": "auth != null && !data.exists()",
+        ".validate": "newData.hasChildren(['type', 'message', 'timestamp'])"
+      }
+    }
+  }
+}
